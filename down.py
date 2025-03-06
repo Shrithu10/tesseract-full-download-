@@ -33,7 +33,7 @@ def main():
     st.title("Download and Merge PDFs from Tess")
     auth_key = st.text_input("Enter Authorization Key", type="password")
     unit_id = st.text_input("Enter Unit ID")
-    custom_filename = st.text_input("Enter Custom Name for Merged PDF", "Merged_Document.pdf")
+    custom_filename = st.text_input("Enter Desired Name for Merged PDF (e.g., Merged_Document.pdf)", "Merged_Document.pdf")
     
     if st.button("Download PDFs"):
         if not auth_key or not unit_id:
@@ -74,6 +74,10 @@ def main():
                 pdf_files.append(filepath)
 
         if pdf_files:
+            # Ensure the custom filename has a .pdf extension
+            if not custom_filename.lower().endswith('.pdf'):
+                custom_filename += '.pdf'
+            
             output_file = os.path.join(output_dir, sanitize_filename(custom_filename))
             merge_pdfs(pdf_files, output_file)
 
